@@ -1,12 +1,16 @@
 "use client";
 
-import Map from "@/components/Map";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 
 interface LatitudeNLongitude {
   latitude: string;
   longitude: string;
 }
+
+const DynamicMap = dynamic(() => import("../../components/Map"), {
+  ssr: false,
+});
 
 export default function Client() {
   const [ll, setLL] = useState<LatitudeNLongitude>({
@@ -26,7 +30,9 @@ export default function Client() {
 
   return (
     <main className="flex flex-col min-h-screen items-center justify-center p-5 md:p-10 xl:p-24 space-x-5 md:space-x-0">
-      <Map />
+      <section className="w-full h-[300px] overflow-hidden">
+        <DynamicMap />
+      </section>
 
       <section className="flex w-full flex-col md:flex-row md:justify-between mt-5 space-y-3 md:space-y-0">
         <div>

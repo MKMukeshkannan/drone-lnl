@@ -2,14 +2,23 @@
 
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { Icon, LatLngExpression } from "leaflet";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { Icon, LatLngExpression, LatLngTuple, marker } from "leaflet";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-function DraggableMarker() {
+interface prop {
+  latlng: [LatLngTuple, Dispatch<SetStateAction<LatLngTuple>>];
+}
+
+function DraggableMarker({ latlng }: prop) {
   const [draggable, setDraggable] = useState(false);
-  const [position, setPosition] = useState<LatLngExpression>([
-    13.08268, 80.270721,
-  ]);
+  const [position, setPosition] = latlng;
   const markerRef = useRef<any>(null);
   const customLocIcon = new Icon({
     iconUrl:
@@ -17,14 +26,12 @@ function DraggableMarker() {
     iconSize: [32, 32],
   });
 
-  console.log(position);
-
   const eventHandlers = useMemo(
     () => ({
       dragend() {
         const marker = markerRef.current;
         if (marker != null) {
-          setPosition(marker.getLatLng());
+          setPosition([marker.getLatLng().lat, marker.getLatLng().lng]);
         }
       },
     }),
@@ -54,13 +61,13 @@ function DraggableMarker() {
   );
 }
 
-export default function Map() {
+export default function Map({ latlng }: prop) {
   return (
     <MapContainer
       center={[13.08268, 80.270721]}
       zoom={13}
       scrollWheelZoom={true}
-      className="h-screen"
+      className="h-[300px]"
     >
       <TileLayer
         attribution={
@@ -68,7 +75,7 @@ export default function Map() {
         }
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <DraggableMarker />
+      <DraggableMarker latlng={latlng} />
     </MapContainer>
   );
 }

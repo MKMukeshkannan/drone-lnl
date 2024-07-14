@@ -1,22 +1,15 @@
 "use client";
 
 import { pusherClient } from "@/lib/pusher";
+import { LatLngTuple } from "leaflet";
 import { useEffect, useState } from "react";
 
-interface LatitudeNLongitude {
-  latitude: string;
-  longitude: string;
-}
-
 export default function Server() {
-  const [ll, setLL] = useState<LatitudeNLongitude>({
-    longitude: "0",
-    latitude: "0",
-  });
+  const [ll, setLL] = useState<LatLngTuple>([0, 0]);
 
   useEffect(() => {
     pusherClient.subscribe("event");
-    pusherClient.bind("setLL", (new_ll: LatitudeNLongitude) => setLL(new_ll));
+    pusherClient.bind("setLL", (new_ll: LatLngTuple) => setLL(new_ll));
     return () => {
       pusherClient.unsubscribe("event");
     };
@@ -24,12 +17,10 @@ export default function Server() {
 
   return (
     <main className="flex min-h-screen items-center flex-col justify-center p-24 space-x-5">
-      <h1 className="text-left text-3xl font-bold font-mono">
-        Latitude: {ll?.latitude}
-      </h1>
-      <h1 className="text-left text-3xl font-bold font-mono">
-        Longitude: {ll?.longitude}
-      </h1>
+      <h1 className="text-left text-3xl font-bold font-mono">Latitude</h1>
+      <h1 className="text-left text-xl md:text-5xl font-bold font-mono">{ll[0]}</h1>
+      <h1 className="text-left text-3xl font-bold font-mono mt-10">Longitude</h1>
+      <h1 className="text-left text-xl md:text-5xl font-bold font-mono">{ll[1]}</h1>
     </main>
   );
 }

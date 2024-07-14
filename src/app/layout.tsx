@@ -16,7 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <h1 className="font-mono text-5xl font-black p-5 text-right  absolute top-0 right-0">
+          Team Pheonix
+        </h1>
+        {children}
+      </body>
     </html>
   );
 }

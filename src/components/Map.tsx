@@ -8,7 +8,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { Icon, LatLngExpression, LatLngTuple, marker } from "leaflet";
+import { Icon, LatLngTuple } from "leaflet";
 import {
   Dispatch,
   SetStateAction,
@@ -20,6 +20,11 @@ import {
 
 interface prop {
   latlng: [LatLngTuple, Dispatch<SetStateAction<LatLngTuple>>];
+}
+
+interface TypeE {
+  lat: number;
+  lng: number;
 }
 
 function DraggableMarker({ latlng }: prop) {
@@ -36,8 +41,9 @@ function DraggableMarker({ latlng }: prop) {
     click() {
       map.locate();
     },
-    locationfound(e: any) {
-      setPosition(e.latlng);
+    locationfound(e) {
+      let location: TypeE = e.latlng;
+      setPosition([location.lat, location.lng]);
       map.flyTo(e.latlng, map.getZoom());
     },
   });

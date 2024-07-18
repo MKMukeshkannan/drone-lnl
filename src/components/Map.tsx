@@ -1,6 +1,12 @@
 "use client";
 
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon, LatLngExpression, LatLngTuple, marker } from "leaflet";
 import {
@@ -24,6 +30,16 @@ function DraggableMarker({ latlng }: prop) {
     iconUrl:
       "https://www.iconpacks.net/icons/2/free-location-pin-icon-2965-thumb.png",
     iconSize: [32, 32],
+  });
+
+  const map = useMapEvents({
+    click() {
+      map.locate();
+    },
+    locationfound(e: any) {
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+    },
   });
 
   const eventHandlers = useMemo(

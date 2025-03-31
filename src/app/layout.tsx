@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <h1 className="font-mono text-5xl font-black p-5 text-right  absolute top-0 right-0">
-          Team Pheonix
+          Team Propelx
         </h1>
         {children}
       </body>

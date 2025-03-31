@@ -21,6 +21,7 @@ export default function Server() {
       <h1 className="text-left text-xl md:text-5xl font-bold font-mono">{ll[0]}</h1>
       <h1 className="text-left text-3xl font-bold font-mono mt-10">Longitude</h1>
       <h1 className="text-left text-xl md:text-5xl font-bold font-mono">{ll[1]}</h1>
+      <a  href="/qr" className="py-2 px-5 bg-black text-white mt-10 rounded-md" >NEXT</a>
     </main>
   );
 }
